@@ -4,9 +4,9 @@ include("includes/header.inc.php");     //Insertion du HTML header
 
 //On vérifie le code de session
 if (array_key_exists('code', $_GET) and array_key_exists($_GET['code'], $_SESSION['code'])) {
-    $id_tache = intval($_SESSION['code'][$_GET['code']]);
+    $id_tache = intval($_SESSION['code'][$_GET['code']]);       //On récupère le code de session s'il est valide
 } else {
-    header("Location: todolist.php");
+    header("Location: todolist.php");       //Si le code de session n'est pas valide, renvoie vers l'accueil
     exit();
 }
 
@@ -27,6 +27,7 @@ if ($id_tache != 0) {
 }
 ?>
 
+<!-- Le design de la page est géré grâce aux class bootstrap placé dans les attributs des éléments HTML -->
 <div class="col-md-8 mx-auto">
 
     <!-- Affichage dynamique du h1, "Ajouter" si id = 0, "Éditer" sinon -->
@@ -42,13 +43,14 @@ if ($id_tache != 0) {
 
     <!-- Début du formulaire -->
     <form action="saveTask.php" method="post" class="needs-validation" novalidate>
-        
+
         <!-- On récupère le code de session -->
         <input type="hidden" name="code" value="<?php echo $_GET['code']; ?>">
 
-            
+
         <div class="mb-3">
             <label class="form-label fw-bold">Nom<span class="text-danger">*</span></label>
+            <!-- Si on édite on affiche le nom de la tâche sinon on affiche rien -->
             <input type="text" name="titre" class="form-control form-control-lg" placeholder="Ex: Faire projet Todolist" required value="<?php if ($id_tache != 0) echo htmlspecialchars($titre ?? ''); ?>">
             <div class="invalid-feedback">
                 Veuillez entrez le nom de la tâche
@@ -57,18 +59,22 @@ if ($id_tache != 0) {
 
         <div class="mb-3">
             <label class="form-label fw-bold">Description</label>
+            <!-- Si on édite on affiche la description de la tâche sinon on affiche rien -->
             <textarea name="description" class="form-control" rows="3" placeholder="Ex: Revoir les cours de PHP et consulter la documentation Bootstrap"><?php if ($id_tache != 0) echo htmlspecialchars($description ?? ''); ?></textarea>
         </div>
 
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label fw-bold">Date limite</label>
+                <!-- Si on édite on affiche la date limite de la tâche sinon on affiche l'affichage par défaut -->
                 <input type="date" name="date_limite" class="form-control" value="<?php echo ($id_tache != 0 && $date_limite) ? $date_limite : date('Y-m-d'); ?>">
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-bold">Catégorie<span class="text-danger">*</span></label>
+                <!-- Si on édite on affiche la catégorie de la tâche sinon on affiche "Choisir" -->
                 <select name="id_categorie" class="form-select" required>
                     <option value="">-- Choisir --</option>
+                    <!-- Boucle qui permet d'afficher ou non la catégorie de chaque tâche -->
                     <?php
                     while ($cat = mysqli_fetch_assoc($categories)) {
                         $selection = ($id_tache != 0 && $id_categorie == $cat['id_categorie']) ? 'selected' : '';
@@ -85,8 +91,10 @@ if ($id_tache != 0) {
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label fw-bold">Priorité<span class="text-danger">*</span></label>
+                <!-- Si on édite on affiche la priorité de la tâche sinon on affiche "Choisir" -->
                 <select name="id_priorite" class="form-select" required>
                     <option value="">-- Choisir --</option>
+                    <!-- Boucle qui permet d'afficher ou non la priorité de chaque tâche -->
                     <?php while ($prio = mysqli_fetch_assoc($priorites)) {
                         $selected = ($id_tache != 0 && $id_priorite == $prio['id_priorite']) ? 'selected' : '';
                         echo "<option value='{$prio['id_priorite']}' $selected>{$prio['libelle_priorite']}</option>";
@@ -98,8 +106,10 @@ if ($id_tache != 0) {
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-bold">Statut<span class="text-danger">*</span></label>
+                <!-- Si on édite on affiche le statut de la tâche sinon on affiche "Choisir" -->
                 <select name="id_statut" class="form-select" required>
                     <option value="">-- Choisir --</option>
+                    <!-- Boucle qui permet d'afficher ou non le statut de chaque tâche -->
                     <?php while ($stat = mysqli_fetch_assoc($statut)) {
                         $selected = ($id_tache != 0 && $id_statut == $stat['id_statut']) ? 'selected' : '';
                         echo "<option value='{$stat['id_statut']}' $selected>{$stat['libelle_statut']}</option>";
@@ -117,6 +127,8 @@ if ($id_tache != 0) {
 </div>
 
 <script>
+    //Script Javascript issu de la documentation Bootstrap qui permet de vérifier et afficher si des champs sont validés ou non
+
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
         'use strict';
