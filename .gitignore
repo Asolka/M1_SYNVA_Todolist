@@ -3,6 +3,7 @@ CoursSynva/
 
 # Identifiants BDD
 auth.php
+authAD.php
 
 # IDE / Editeurs
 .vscode/

@@ -19,7 +19,7 @@ $query="SELECT t.id_tache, t.titre, t.description, DATE_FORMAT(t.date_limite, '%
     //Test de la requête SQL renvoie une erreur si ne fonctionne pas
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 try {
-	$result=$link->query($query);
+	$result=mysqli_query($link, $query);
 } catch (Exception $e) { 
     echo "MySQLi Error Code: " . $e->getCode() . "<br />";
     echo "Exception Msg: " . $e->getMessage();
@@ -47,7 +47,7 @@ exit();
     </thead>
     <tbody>
 <?php 
-while ($var = $result -> fetch_assoc()) {   //Boucle, pour chaque tâche, rajoute une ligne dans le tableau, lui donne un code de session et affiche ses attributs, puis les boutons d'actions
+while ($var = mysqli_fetch_assoc($result)) {   //Boucle, pour chaque tâche, rajoute une ligne dans le tableau, lui donne un code de session et affiche ses attributs, puis les boutons d'actions
     
 $code=random_pw(10);
 $_SESSION['code'][$code]=$var['id_tache'];
