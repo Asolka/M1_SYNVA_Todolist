@@ -14,6 +14,7 @@ if (array_key_exists('code', $_GET) and array_key_exists($_GET['code'], $_SESSIO
 $categories = mysqli_query($link, "SELECT * FROM categorie");       //On récupère la table "catégorie"
 $priorites = mysqli_query($link, "SELECT * FROM priorite");     //On récupère la table "priorite"
 $statut = mysqli_query($link, "SELECT * FROM statut");      //On récupère la table "statut"
+$etiquettes = mysqli_query($link, "SELECT * FROM etiquette");       //On récupère la table "etiquette"
 
 //Si on édite une tâche (id != 0) on charge la tâche
 if ($id_tache != 0) {
@@ -24,6 +25,21 @@ if ($id_tache != 0) {
     mysqli_stmt_execute($stmt);     //On exécute la requête
     mysqli_stmt_bind_result($stmt, $id_tache, $titre, $description, $date_limite, $date_creation, $date_modification, $id_categorie, $id_priorite, $id_statut);     //On associe les colonnes du résultats à des variables PHP pour les lire
     mysqli_stmt_fetch($stmt);   //On récupère chaque ligne dans les variables liées
+    mysqli_stmt_close($stmt);    // Fermer le premier statement pour ensuite gérer les étiquettes sinon impossible d'éditer problème sur la page
+}
+
+//Si on édite une tâche (id != 0) on charge les étiquettes de la tâche
+$etiquettesTab = array();
+if ($id_tache != 0) {
+    $queryEtiq = "SELECT id_etiquette FROM est_marquee_par WHERE id_tache = ?";
+    $stmtEtiq = mysqli_prepare($link, $queryEtiq);
+
+    mysqli_stmt_bind_param($stmtEtiq, 'i', $id_tache);
+    mysqli_stmt_execute($stmtEtiq);
+    mysqli_stmt_bind_result($stmtEtiq, $id_Etiq);
+    while (mysqli_stmt_fetch($stmtEtiq)){
+        $etiquettesTab[] = $id_Etiq;
+    }
 }
 ?>
 
@@ -118,6 +134,19 @@ if ($id_tache != 0) {
                 <div class="invalid-feedback">
                     Veuillez choisir son statut
                 </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Étiquettes</label>
+            <div>
+                <?php while ($etiq = mysqli_fetch_assoc($etiquettes)) {
+            $checked = in_array($etiq['id_etiquette'], $etiquettesTab) ? 'checked' : '';
+            echo "<div class='form-check form-check-inline'>";
+            echo "<input class='form-check-input' type='checkbox' name='etiquettes[]' value='{$etiq['id_etiquette']}' id='etiq{$etiq['id_etiquette']}' $checked>";
+            echo "<label class='form-check-label' for='etiq{$etiq['id_etiquette']}'><span class='badge' style='background-color:{$etiq['couleur']}'>{$etiq['nom_etiquette']}</span></label>";
+            echo "</div>";
+        } ?>
             </div>
         </div>
 

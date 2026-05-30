@@ -128,6 +128,14 @@ h1 {
     box-shadow: 0 0 0 0.2rem rgba(26, 115, 232, 0.25);
 }
 
+/* Curseur pointer sur les éléments interactifs */
+.form-check-label,
+.form-check-label .badge,
+.form-select,
+input[type="date"] {
+    cursor: pointer;
+}
+
 /* Footer */
 footer {
     color: #90a4ae;

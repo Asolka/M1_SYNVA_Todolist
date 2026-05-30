@@ -40,6 +40,7 @@ exit();
             <th>Catégorie</th>
             <th>Priorité</th>
             <th>Statut</th>
+            <th>Étiquettes</th>
             <th>Création</th>
             <th>Limite</th>
             <th>Actions</th>
@@ -69,6 +70,20 @@ if ($var['libelle_statut'] == 'En attente') $classeStatut = 'badge-statut-attent
 elseif ($var['libelle_statut'] == 'En cours') $classeStatut = 'badge-statut-cours';
 elseif ($var['libelle_statut'] == 'Terminé') $classeStatut = 'badge-statut-termine';
 echo "<td><span class='badge $classeStatut'>" . $var['libelle_statut'] . "</span></td>";
+
+// Récupérer les étiquettes de cette tâche
+$queryEtiq = "SELECT e.nom_etiquette, e.couleur 
+              FROM est_marquee_par emp 
+              JOIN etiquette e USING (id_etiquette) 
+              WHERE emp.id_tache = " . intval($var['id_tache']);
+$resultEtiq = mysqli_query($link, $queryEtiq);
+
+echo "<td>";
+while ($etiq = mysqli_fetch_assoc($resultEtiq)) {
+    echo "<span class='badge me-1' style='background-color:{$etiq['couleur']}'>{$etiq['nom_etiquette']}</span>";
+}
+echo "</td>";
+
 echo "<td>" . $var['date_creation'] ?? '-' . "</td>";       //Affiche la date de création de la tâche
 echo "<td>" . $var['date_limite'] ?? '-' . "</td>";     //Affiche la date limite de la tâche
 echo "<td>";
