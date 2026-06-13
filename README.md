@@ -1,54 +1,54 @@
-# Ma Tout Doux List
+# 🍃 Ma Tout Doux List
 
-Application web de gestion de tâches avec un thème visuel inspiré d'Animal Crossing.
+A web-based task manager with an Animal Crossing-inspired pastel theme.
 
-## Fonctionnalités
+## ✨ Features
 
-- **Liste des tâches** : affichage en tableau avec tri par colonnes (titre, catégorie, priorité, statut, dates)
-- **Création / Édition / Suppression** de tâches via un formulaire avec validation
-- **Catégories, priorités, statuts** : chaque tâche est classée selon ces critères avec des badges colorés
-- **Étiquettes** : système d'étiquettes personnalisées avec couleurs (relation N:N)
-- **Dashboard** : tableau de bord avec compteurs et graphiques Chart.js (camembert par statut, barres par catégorie et priorité)
-- **Sécurité** : codes de session aléatoires pour protéger les IDs, requêtes SQL préparées (mysqli)
-- **Responsive** : adapté mobile avec tableau scrollable
+- 📋 **Task list** — sortable table by title, category, priority, status, and dates
+- ✏️ **Create / Edit / Delete** tasks with form validation
+- 🏷️ **Categories, priorities, statuses** — each task is classified with colored badges
+- 🎨 **Labels** — custom color-coded label system (many-to-many relationship)
+- 📊 **Dashboard** — counters and Chart.js graphs (doughnut by status, bar charts by category and priority)
+- 🔒 **Security** — random session codes to protect IDs, prepared SQL statements (mysqli)
+- 📱 **Responsive** — mobile-friendly with horizontal scroll on the table
 
-## Stack technique
+## 🛠️ Tech Stack
 
-- **Backend** : PHP 8 / MySQL (mysqli)
-- **Frontend** : HTML5, CSS3, Bootstrap 5, Chart.js
-- **Serveur** : WAMP (Windows, Apache, MySQL, PHP)
-- **Typographie** : Google Fonts (Quicksand)
+- **Backend** — PHP 8 / MySQL (mysqli)
+- **Frontend** — HTML5, CSS3, Bootstrap 5, Chart.js
+- **Server** — WAMP (Windows, Apache, MySQL, PHP)
+- **Font** — Google Fonts (Quicksand)
 
-## Structure du projet
+## 📁 Project Structure
 
 ```
 todolist/
 ├── assets/
 │   ├── css/
-│   │   └── style.css           # Thème pastel Animal Crossing
-│   ├── images/                 # Icônes et images du thème
+│   │   └── style.css           # Animal Crossing pastel theme
+│   ├── images/                 # Theme icons and images
 │   └── js/
 │       └── script.js
 ├── includes/
-│   ├── connectDB.inc.php       # Connexion BDD + fonction de sécurité
-│   ├── header.inc.php          # En-tête HTML + navbar
-│   ├── footer.inc.php          # Pied de page + scripts CDN
-│   └── auth.php                # Identifiants BDD (non versionné)
+│   ├── connectDB.inc.php       # DB connection + security function
+│   ├── header.inc.php          # HTML header + navbar
+│   ├── footer.inc.php          # Footer + CDN scripts
+│   └── auth.php                # DB credentials (not versioned)
 ├── sql/
-│   └── todolist.sql            # Script de création de la BDD
-├── todolist.php                # Page d'accueil (liste des tâches)
-├── taskForm.php                # Formulaire de création / édition
-├── saveTask.php                # Traitement du formulaire
-├── deleteTask.php              # Suppression d'une tâche
-└── dashboard.php               # Tableau de bord avec graphiques
+│   └── todolist.sql            # Database creation script
+├── todolist.php                # Home page (task list)
+├── taskForm.php                # Create / edit form
+├── saveTask.php                # Form processing
+├── deleteTask.php              # Task deletion
+└── dashboard.php               # Dashboard with charts
 ```
 
-## Installation
+## 🚀 Installation
 
-1. Installer WAMP (ou équivalent)
-2. Cloner le projet dans le dossier `www/`
-3. Importer `sql/todolist.sql` dans phpMyAdmin
-4. Créer le fichier `includes/auth.php` avec les identifiants de connexion :
+1. Install WAMP (or equivalent)
+2. Clone the project into the `www/` folder
+3. Import `sql/todolist.sql` into phpMyAdmin
+4. Create the file `includes/auth.php` with your DB credentials:
    ```php
    <?php
    $host = "localhost";
@@ -57,12 +57,12 @@ todolist/
    $db = "todolist";
    ?>
    ```
-5. Accéder à `http://localhost/todolist/todolist.php`
+5. Go to `http://localhost/todolist/todolist.php`
 
-## Base de données
+## 🗄️ Database
 
-6 tables : `tache`, `categorie`, `priorite`, `statut`, `etiquette`, `est_marquee_par` (relation N:N tâche-étiquette).
+6 tables: `tache`, `categorie`, `priorite`, `statut`, `etiquette`, `est_marquee_par` (many-to-many between tasks and labels).
 
-## Projet
+## 🎓 Project
 
-Projet M1 SYNVA 2025-2026
+M1 SYNVA 2025-2026
