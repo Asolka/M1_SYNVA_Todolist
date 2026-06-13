@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once("auth.php"); //Pour des raisons de sécurité, les logs de connexion à la BDD sont dans un fichier à part, puisque ce fichier sera déposé sur github. 
+require_once("authAD.php"); //Pour des raisons de sécurité, les logs de connexion à la BDD sont dans un fichier à part, puisque ce fichier sera déposé sur github. 
 
     //Connexion à la BDD
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
